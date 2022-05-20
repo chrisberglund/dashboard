@@ -1,0 +1,27 @@
+{
+    "id": "2441656C",
+    "path": "~/Projects/dashboard/test.r",
+    "project_path": "test.r",
+    "type": "r_source",
+    "hash": "1642860473",
+    "contents": "",
+    "dirty": false,
+    "created": 1653012189250.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "45,0",
+        "scrollLine": "11"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1653083954,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1653083954537,
+    "read_only": false,
+    "read_only_alternatives": []
+}
