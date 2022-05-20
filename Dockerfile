@@ -18,8 +18,8 @@ RUN R -e 'install.packages(c(\
               "shiny", \
               "shinydashboard", \
               "ggplot2" \
-              "xml2" \
               "stringr" \
+              "plyr" \
             ), \
             repos="https://packagemanager.rstudio.com/cran/__linux__/focal/2021-04-23"\
           )'

@@ -1,5 +1,6 @@
 library("stringr")
 library("httr")
+library("plyr")
 
 get_game_urls <- function(week_url) {
   res <- GET(week_url)
@@ -38,8 +39,24 @@ get_game_stats <- function(game_url, year) {
   
   df <- data.frame(ID = id, Time = times, Quarter = periods, Percent = win_prcnts)
   df$Home_Win <- win_prcnts[length(win_prcnts)] == 1
+  
+  Sys.sleep(sample(0:2, 1))
+  
   return(df)
 }
 
+get_week_games <- function(week_url, year) {
+  games <- get_game_urls(week_url)
+  game_dfs <- lapply(games, get_game_stats, year=year)
+  df <- rbind.fill(game_dfs)
+  return(df)
+}
 
-test <- get_game_stats("https://www.espn.com/nfl/game/_/gameId/401326316", 2018)
+get_year_games <- function(base_url, year) {
+  res <- GET(base_url)
+  body <- content(res, "text")
+  week_urls <- str_match_all(body, '(?<=data-url=\\")\\/nfl\\/schedule\\/_\\/week.*?(?=\\")')[[1]]
+  week_urls <- week_urls[!sapply(week_urls, grepl, pattern="seasontype/1", USE.NAMES = FALSE)] # Get rid of preseason
+}
+
+test <- get_week_games("https://www.espn.com/nfl/schedule/_/year/2021", 2021)
