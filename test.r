@@ -37,7 +37,7 @@ get_game_stats <- function(game_url, year) {
   
   times <- minutes * 60 + seconds # Store times in seconds from start of game
   
-  df <- data.frame(ID = id, Time = times, Quarter = periods, Percent = win_prcnts)
+  df <- data.frame(ID = id, Time = times, Quarter = periods, Percent = win_prcnts, Year = year)
   df$Home_Win <- win_prcnts[length(win_prcnts)] == 1
   
   Sys.sleep(sample(0:2, 1))
@@ -55,8 +55,16 @@ get_week_games <- function(week_url, year) {
 get_year_games <- function(base_url, year) {
   res <- GET(base_url)
   body <- content(res, "text")
+  first_week <- get_week_games(base_url, year)
   week_urls <- str_match_all(body, '(?<=data-url=\\")\\/nfl\\/schedule\\/_\\/week.*?(?=\\")')[[1]]
   week_urls <- week_urls[!sapply(week_urls, grepl, pattern="seasontype/1", USE.NAMES = FALSE)] # Get rid of preseason
+  week_urls <- paste("https:/www.espn.com", week_urls, sep="")
+  
+  game_dfs <- lapply(week_urls, get_week_games, year=year)
+  game_df <- rbind.fill(game_dfs)
+  df <- rbind.fill(first_week, game_df)
+  
+  return(df)
 }
 
-test <- get_week_games("https://www.espn.com/nfl/schedule/_/year/2021", 2021)
+stats <- get_year_games("https://www.espn.com/nfl/schedule/_/year/2021", 2021)
