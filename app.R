@@ -2,13 +2,10 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
 
-    # Application title
     titlePanel("NFL Winning percentage"),
 
-    # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
           sliderInput("minutes",
@@ -18,14 +15,12 @@ ui <- fluidPage(
                       value = 1)
         ),
 
-        # Show a plot of the generated distribution
         mainPanel(
            plotOutput("gamePlot")
         )
     )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
     df <- read.csv("~/Desktop/football_stats.csv")
     df$Minute <- floor(df$Time / 60)
@@ -41,5 +36,4 @@ server <- function(input, output) {
     })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
