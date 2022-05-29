@@ -2,25 +2,23 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 
-ui <- fluidPage(
-
-    titlePanel("NFL Winning percentage"),
-
-    sidebarLayout(
-        sidebarPanel(
-          sliderInput("minutes",
-                      "Minute",
-                      min = 0,
-                      max = 70,
-                      value = 1)
-        ),
-
-        mainPanel(
-          plotOutput("flaccoMeter"),
-           plotOutput("gamePlot")
-        )
+ui <- 
+    navbarPage("App Title",
+               tabPanel("Winning Percentage", sidebarPanel(
+                 sliderInput("minutes",
+                             "Minute",
+                             min = 0,
+                             max = 70,
+                             value = 1)
+               ),plotOutput("gamePlot")),
+               tabPanel("Flacco", plotOutput("flaccoMeter")),
+               navbarMenu("More",
+                          tabPanel("Summary"),
+                          "----",
+                          "Section header",
+                          tabPanel("Table")
+               )
     )
-)
 
 server <- function(input, output) {
     df <- read.csv("~/Desktop/football_stats.csv")

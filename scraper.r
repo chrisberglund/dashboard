@@ -60,7 +60,7 @@ get_week_games <- function(week_url, year) {
 
 get_year_games <- function(base_url) {
   res <- GET(base_url)
-  year <- as.integer(str_sub(year_urls[1], -4))
+  year <- as.integer(str_sub(base_url[1], -4))
   body <- content(res, "text")
   
   # Week 1 page's url is formatted differently so needs to be done separate
